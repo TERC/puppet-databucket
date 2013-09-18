@@ -1,6 +1,6 @@
-# Class: stdlib
+# Class: databucket
 #
-# This module manages stdlib
+# This module manages databucket
 #
 # Parameters: none
 #
@@ -10,6 +10,6 @@
 #
 # Sample Usage:
 #
-class stdlib {
+class databucket {
 
 }

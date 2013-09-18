@@ -9,14 +9,25 @@ Adds the databucket type and associated functions.
 A databucket is a resource primitive that functions as a lightweight exportable data container.  It can be used to import and export 
 arbitrary data in a controllable manner between classes or nodes.
 
-The get_bucketed function(see below) can be used to collect all buckets that are real or have been realized of a given type, collecting
-their data into an array.
+The get_bucketed function(see below) can be used to collect all buckets that are real or have been realized of a given type, 
+collecting their data into an array.
 
 
 ## Functions ##
 
-### create_databucket ###
-Creates a bucket of the specified type.
+### create_databuckets ###
+This function is similar to the create_resources function now included in puppet except:
+- the resource is known to be a databucket
+- the first argument(type) is actually setting a parameter used for filtering on the resource
+- the name is automatically assigned and follows the format #{type}::#{md5sum(data)}
+- the third argument sets metaparameters(tags, expiration, virtual, export)
+
+*Examples:*
+    create_databuckets('bucket', { 
+
+Is functionally equivalent to:
+    databucket { '': type => 'bucket', data => '' }
+    
 
 ### databucket_md5sum ###
 The databucket_md5sum function uses the standard ruby Digest library to perform a Digest::MD5.hexdigest on a string.
