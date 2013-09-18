@@ -7,30 +7,69 @@ Puppet::Parser::Functions.newfunction(:create_databucket,
   so we generate an identifier that includes an md5sum of the data.
 EOS
 ) do |args|
-  type, data = args
+  type, data, metadata = args
 
   raise(ArgumentError, "Must pass a type") unless type
   raise(ArgumentError, "Must pass data") unless data
-  raise(ArgumentError, "Data must be a hash") unless data.is_a? Hash
-  
-  type    = type.downcase
-  export  = false
-  virtual = false
-  
-  # Ensure we still have a hash
-  raise(ArgumentError, "Only one key means we parsed toplevel key as name.  Data must be a hash.") unless data.is_a? Hash
+  raise(ArgumentError, "Data must be a hash, array, or string") if (data.class != String and data.class != Array and data.class != Hash)
 
-  # Parse out options to figure out what to do
-  data.keys.each do |key|
-    case key.downcase.singularize.to_sym
-
-    when :virtual
-      data.delete(key)
-    when :export
-      data.delete(key)
+  raise(ArgumentError, "Metadata must be a hash") if metadata and !metadata.is_a? Hash
+   
+  type     = type.downcase
+  exported = false
+  virtual  = false
+  
+  if metadata
+    metadata.each_pair do |key, value|
+      case key.to_s.downcase.singularize.chomp.to_sym # that's a mouthful!
+      when :virtual
+        eval = value.downcase.singularize.chomp
+        if eval =~ (/(true)$/i)
+          virtual = true
+        elsif eval =~ (/(false)$/i)
+          virtual = false
+        else
+          raise(ArgumentError, "Virtual must be set to true or false")
+        end 
+      when :export
+        eval = value.downcase.singularize.chomp
+        if eval =~ (/(true|enabled)$/i)
+          exported = true
+        elsif eval =~ (/(false|disabled)$/i)
+          exported = false
+        else
+          raise(ArgumentError, "Export must be set to true, false, enabled or disabled")
+        end 
+      when :exported
+        eval = value.downcase.singularize.chomp
+        if eval =~ (/(true|enabled)$/i)
+          exported = true
+        elsif eval =~ (/(false|disabled)$/i)
+          exported = false
+        else
+          raise(ArgumentError, "Export(ed) must be set to true, false, enabled or disabled")
+        end 
+      when :tag
+        tags = value
+      end
     end
   end
   
-  #function_create_resource('databucket', { name => data })
+  raise(ArgumentError, "Can only set exported or virtual, not both") if virtual and exported
   
+  name_prefix = ""
+  if virtual
+    name_prefix = "@"
+  elsif exported
+    name_prefix = "@@"
+  end
+  
+  name = "#{name_prefix}#{type}::#{function_databucket_md5sum([data])}"
+ 
+  # Now construct the object
+  object = { name => { "data" => data } }
+  object[name].merge({ "tags" => tags }) if tags
+    
+  # And call out to the create_resources function
+  function_create_resources(['databucket', object]) 
 end
