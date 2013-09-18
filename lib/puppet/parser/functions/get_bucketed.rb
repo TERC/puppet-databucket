@@ -1,10 +1,23 @@
 require 'puppet/parser/functions'
 
-Puppet::Parser::Functions.newfunction(:get_bucketed_data,
+Puppet::Parser::Functions.newfunction(:get_bucketed,
                                       :type => :rvalue,
                                       :doc => <<-'EOS'
-  Collect all buckets(all not virtual buckets, all virtual or exported buckets that have been collected) of a 
-  given type and return an array of their data.
+This function queries the compiler for all resources of type databucket.  It then retrieves those resource's parameters(this should 
+set off alarm bells about caution) and filters them matches by the passed 'bucket' parameter - ultimately returning an array composed 
+of the data payload that exists within the specified databuckets.
+
+*Examples:*
+    class setup_buckets {
+      databucket{ 'foo': type => 'bucket', data => "value" }
+      databucket{ 'bar': type => 'bucket', data => "another value" }
+    }
+    class collect_buckets {
+      require setup_buckets 
+      $buckets = get_bucketed('bucket')
+    }
+    
+In this example the buckets variable can be expected to contain [ 'value', 'another value' ]
 EOS
 ) do |args|
   type = args[0]
@@ -13,7 +26,7 @@ EOS
   type = type.downcase.to_sym if type
   raise(ArgumentError, "Must specify the type of bucket") unless type
   
-  bucket_type = Puppet::Resource.new('bucket', 'whatever').type
+  bucket_type = Puppet::Resource.new('databucket', 'whatever').type
   
   # Parse all the collections in the compiler - could be much more efficient here, 
   # but eh, this is clearer I think

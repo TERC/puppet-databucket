@@ -15,15 +15,45 @@ their data into an array.
 
 ## Functions ##
 
-### bucketed ###
-This function queries the compiler through the collected_resources and compiled_resources functions for all resources of type 
-bucket.  It then filters these matches by the passed 'bucket' parameter and returns an array composed of the data that exists 
-within the specified buckets.
+### create_databucket ###
+Creates a bucket of the specified type.
+
+### databucket_md5sum ###
+The databucket_md5sum function uses the standard ruby Digest library to perform a Digest::MD5.hexdigest on a string.
 
 *Examples:*
+    databucket_md5sum("a=>bbc=>dec=>d=>e")
 
-    get_bucketed('bucket')
+Should return the value "3096339ef6bdad8974cd042511404353"
 
-Given a bucket of type bucket, which contains strings as its data payload, would return ["value", "another val"]
+- *Type*: rvalue
+
+### flatten_databucket ###
+The flatten_databucket function flattens and orders arbitrary data and returns a string.
+
+*Examples:*
+    flatten_databucket({ 'c' => { 'd' => 'e' }, 'bc' => 'de', 'a' => 'b' })
+    flatten_databucket({ 'a' => 'b', 'c' => {'d' => 'e' }, 'bc' => 'de' })
+
+Should both return the string "a=>bbc=>dec=>d=>e"
+
+- *Type*: rvalue
+
+### get_bucketed ###
+This function queries the compiler for all resources of type databucket.  It then retrieves those resource's parameters(this should 
+set off alarm bells about caution) and filters them matches by the passed 'bucket' parameter - ultimately returning an array composed 
+of the data payload that exists within the specified databuckets.
+
+*Examples:*
+    class setup_buckets {
+      databucket{ 'foo': type => 'bucket', data => "value" }
+      databucket{ 'bar': type => 'bucket', data => "another value" }
+    }
+    class collect_buckets {
+      require setup_buckets 
+      $buckets = get_bucketed('bucket')
+    }
+    
+In this example the buckets variable can be expected to contain [ 'value', 'another value' ]
 
 - *Type*: rvalue

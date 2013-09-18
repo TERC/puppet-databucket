@@ -3,9 +3,13 @@ require 'puppet/parser/functions'
 Puppet::Parser::Functions.newfunction(:flatten_databucket,
                                       :type => :rvalue,
                                       :doc => <<-'EOS'
-  One of the downsides to ruby 1.8.7 is no good way to sort and thus trivially compare hashes.
-  
-  This function will recursively flatten and sort data.
+The flatten_databucket function flattens and orders arbitrary data and returns a string.
+
+*Examples:*
+    flatten_databucket({ 'c' => { 'd' => 'e' }, 'bc' => 'de', 'a' => 'b' })
+    flatten_databucket({ 'a' => 'b', 'c' => {'d' => 'e' }, 'bc' => 'de' })
+
+Should both return the string "a=>bbc=>dec=>d=>e"
 EOS
 ) do |args|
   data = args[0]
