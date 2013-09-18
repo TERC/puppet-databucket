@@ -41,7 +41,7 @@
     "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
     "spec/spec_helper.rb": "1a7c33a3df6bbdff3d460a3ff1146034",
     "test.rb": "6f259262cbf4831de4ab0db2fe1a099f",
-    "tests/init.pp": "1d98070412c76824e66db4b7eb74d433"
+    "tests/init.pp": "25107891dcf4ca07309bea41843ca422"
   },
   "source": "git://github.com/TERC/puppet-databucket",
   "project_page": "https://github.com/TERC/puppet-databucket",
