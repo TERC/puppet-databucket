@@ -28,7 +28,7 @@
   "checksums": {
     "LICENSE": "ef68ea255efaaf820cb0cc620d653f41",
     "Modulefile": "95fec50af83b0717c505bad81d7490d4",
-    "README.markdown": "1efac3c71573e301f936c3774862a67b",
+    "README.markdown": "fae63422dc684c5d7e3ce0ad14451f1d",
     "Rakefile": "f37e6131fe7de9a49b09d31596f5fbf1",
     "lib/puppet/parser/functions/create_databucket.rb": "b884b64cb8fcd732448d515271897632",
     "lib/puppet/parser/functions/databucket_md5sum.rb": "62e5d2a524f9761820f572e3a8926f89",
