@@ -1,0 +1,50 @@
+{
+  "name": "terc-databucket",
+  "version": "0.1.0",
+  "summary": "TERC Puppet DataBucket Library",
+  "author": "cammoraton",
+  "description": "Adds the databucket type and associated functions.",
+  "dependencies": [],
+  "types": [
+    {
+      "parameters": [
+        {
+          "name": "name",
+          "doc": "Name of the bucket, must be unique"
+        },
+        {
+          "name": "type",
+          "doc": "A metaparam, sets the type of data"
+        },
+        {
+          "name": "data",
+          "doc": "Actual data, accepts anything"
+        }
+      ],
+      "name": "databucket",
+      "doc": "An bucket of arbitrary data"
+    }
+  ],
+  "checksums": {
+    "LICENSE": "ef68ea255efaaf820cb0cc620d653f41",
+    "Modulefile": "95fec50af83b0717c505bad81d7490d4",
+    "README.markdown": "1efac3c71573e301f936c3774862a67b",
+    "Rakefile": "f37e6131fe7de9a49b09d31596f5fbf1",
+    "lib/puppet/parser/functions/create_databucket.rb": "b884b64cb8fcd732448d515271897632",
+    "lib/puppet/parser/functions/databucket_md5sum.rb": "62e5d2a524f9761820f572e3a8926f89",
+    "lib/puppet/parser/functions/flatten_databucket.rb": "e672d2bce05212359fe1e99c3d70d533",
+    "lib/puppet/parser/functions/get_bucketed_data.rb": "072a61acbd51ad3953c73e11f612ff15",
+    "lib/puppet/type/databucket.rb": "5aa9964fec11e6f470c2ef7e76d8961b",
+    "manifests/collect_buckets.pp": "0b97b42909a56996447f6a599f65b2b7",
+    "manifests/init.pp": "5d43d13e813ad6104f52fbe8bab0aaf1",
+    "spec/puppet/parser/functions/bucketed_spec.rb": "237c7e9b4047b5a6d05b788db9320aef",
+    "spec/puppet/type/databucket_spec.rb": "5fd5f0bff019a295b65c5cf80d3d225c",
+    "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
+    "spec/spec_helper.rb": "1a7c33a3df6bbdff3d460a3ff1146034",
+    "test.rb": "6f259262cbf4831de4ab0db2fe1a099f",
+    "tests/init.pp": "1d98070412c76824e66db4b7eb74d433"
+  },
+  "source": "git://github.com/TERC/puppet-databucket",
+  "project_page": "https://github.com/TERC/puppet-databucket",
+  "license": "MIT or Apache 2.0"
+}
