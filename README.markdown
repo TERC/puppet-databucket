@@ -1,6 +1,7 @@
 # TERC Puppet Databucket Library #
 
-Adds the databucket type and associated functions.
+Initially an intellectual exercise to try to bring myself back up to speed on puppet internals(having last messed with them in 2.7), this 
+module adds the databucket type and associated functions.
 
 ## Types ##
 
@@ -23,10 +24,10 @@ This function is similar to the create_resources function now included in puppet
 - the third argument sets metaparameters(tags, expiration, virtual, export)
 
 *Examples:*
-    create_databuckets('bucket', { 
+    create_databuckets('bucket', { 'data' => { 'foo' => 'bar' } })
 
 Is functionally equivalent to:
-    databucket { '': type => 'bucket', data => '' }
+    databucket { 'bucket::fb44f36ae92ff8464cb0efa8ee4bab74': type => 'bucket', data => { 'foo' => 'bar' } }
     
 
 ### databucket_md5sum ###

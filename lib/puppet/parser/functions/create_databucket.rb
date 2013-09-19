@@ -3,8 +3,17 @@ require 'puppet/parser/functions'
 Puppet::Parser::Functions.newfunction(:create_databucket,
                                       :arrity => 3,
                                       :doc => <<-'EOS'
-  Creates a new databucket.  We can't have a metatype in puppet that controls name values on the basis of a parameter,
-  so we generate an identifier that includes an md5sum of the data.
+This function is similar to the create_resources function now included in puppet except:
+- the resource is known to be a databucket
+- the first argument(type) is actually setting a parameter used for filtering on the resource
+- the name is automatically assigned and follows the format #{type}::#{md5sum(data)}
+- the third argument sets metaparameters(tags, expiration, virtual, export)
+
+*Examples:*
+    create_databuckets('bucket', { 'data' => { 'foo' => 'bar' } })
+
+Is functionally equivalent to:
+    databucket { 'bucket::fb44f36ae92ff8464cb0efa8ee4bab74': type => 'bucket', data => { 'foo' => 'bar' } }
 EOS
 ) do |args|
   type, data, metadata = args
