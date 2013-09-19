@@ -24,9 +24,11 @@ This function is similar to the create_resources function now included in puppet
 - the third argument sets metaparameters(tags, expiration, virtual, export)
 
 *Examples:*
+
     create_databuckets('bucket', { 'data' => { 'foo' => 'bar' } })
 
 Is functionally equivalent to:
+
     databucket { 'bucket::fb44f36ae92ff8464cb0efa8ee4bab74': type => 'bucket', data => { 'foo' => 'bar' } }
     
 
@@ -34,6 +36,7 @@ Is functionally equivalent to:
 The databucket_md5sum function uses the standard ruby Digest library to perform a Digest::MD5.hexdigest on a string.
 
 *Examples:*
+
     databucket_md5sum("a=>bbc=>dec=>d=>e")
 
 Should return the value "3096339ef6bdad8974cd042511404353"
@@ -44,6 +47,7 @@ Should return the value "3096339ef6bdad8974cd042511404353"
 The flatten_databucket function flattens and orders arbitrary data and returns a string.
 
 *Examples:*
+
     flatten_databucket({ 'c' => { 'd' => 'e' }, 'bc' => 'de', 'a' => 'b' })
     flatten_databucket({ 'a' => 'b', 'c' => {'d' => 'e' }, 'bc' => 'de' })
 
@@ -57,6 +61,7 @@ set off alarm bells about caution) and filters them matches by the passed 'bucke
 of the data payload that exists within the specified databuckets.
 
 *Examples:*
+
     class setup_buckets {
       databucket{ 'foo': type => 'bucket', data => "value" }
       databucket{ 'bar': type => 'bucket', data => "another value" }
