@@ -45,15 +45,14 @@ EOS
     end
     
     # Push to the collection collector
-    collection_results = collection_results + resources.map{ |a| a.to_s } unless resources.empty?
+    collection_results = collection_results + resources unless resources.empty?
   end
   
   # Now map everything in the compiler.  Note that this will catch exported resources, so we need to
-  compiler_results = self.compiler.resources.find_all { |a| a.type == bucket_type }
-  compiler_results = results.select{ |a| a.to_s unless (a.exported or a.virtual) } if results and !results.empty?
+  compiler_results = self.compiler.resources.find_all { |a| (a.type == bucket_type) and (! a.exported and ! a.virtual )}
   
   # Add the compiler and collection results together to get all of our 'real' resources
-  buckets = (compiler_results + collection_results).uniq
+  buckets = (compiler_results.map{ |a| a.to_s } + collection_results.map { |a| a.to_s }).uniq
 
   # Now parse for the specific resources and populate the data return.
   # we could've done this above but 1.8.7 makes hash comparisons to ensure uniqueness 
@@ -64,5 +63,5 @@ EOS
                                       res.to_hash[:type].downcase.to_sym == type)
   end
   
-  return data 
+  return data
 end

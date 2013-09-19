@@ -64,12 +64,12 @@ EOS
     name_prefix = "@@"
   end
   
-  name = "#{name_prefix}#{type}::#{function_databucket_md5sum([data])}"
+  name = "#{name_prefix}#{type}::#{function_databucket_md5sum([function_flatten_databucket([data])])}"
  
   # Now construct the object
-  object = { name => { "data" => data } }
+  object = { name => { "type" => type, "data" => data } }
   object[name].merge({ "tags" => tags }) if tags
-    
+  
   # And call out to the create_resources function
   function_create_resources(['databucket', object]) 
 end
