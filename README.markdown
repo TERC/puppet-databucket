@@ -1,7 +1,9 @@
 # TERC Puppet Databucket Library #
 
 Initially an intellectual exercise to try to bring myself back up to speed on puppet internals(having last messed with them in 2.7), this 
-module adds the databucket type and associated functions.
+module adds the databucket type and associated functions.  A word of warning is that this relies heavily on a few assumptions I have not yet
+been able to verify when it comes to internals ordering within puppet.  So far tests have borne out that those assumptions are correct, but
+just be aware that the compiler/collection parsing technique used may not be the safe.
 
 ## Types ##
 
